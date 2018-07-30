@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ReDoc</title>
+    <!-- needed for adaptive design -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700" rel="stylesheet">
+
+    <!--
+    ReDoc doesn't change outer page styles
+    -->
+    <style>
+      body {
+        margin: 0;
+        padding-top: 40px;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+      }
+      #links_container {
+          margin: 0;
+          padding: 0;
+          background-color: #0B1422;
+      }
+      #links_container li {
+          display: inline-block;
+          padding: 10px;
+          color: white;
+          cursor: pointer;
+      }
+	    .powered-by-badge {
+	      display:none;
+	    }
+      redoc {
+        margin-top: -2px;
+      }
+      .dropdown-content {
+        width: 124px;
+        z-index: 99999;
+        position: absolute;
+        background: black;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        margin-top: 10px;
+        left: -2px;
+        display: none;
+      }
+      .dropdown-content a {
+        width: 124px;
+        display: inline-block;
+        color: black;
+        padding: 12px 20px;
+        text-decoration: none;
+        display: block
+      }
+      .dropdown:hover > .dropdown-content {display: block;}
+      .dropdown-content a:hover {background-color: #ddd;}
+    </style>
+  </head>
+  <body>
+      <nav>
+          <ul id="links_container">
+            <li class="dropdown">
+              <a id="bt-language">Language</a>
+              <div id ="language-content" class="dropdown-content">
+                <a class="lang-item" lang="en">English</a>
+                <a class="lang-item" lang="vn">Tiếng Việt</a>
+              </div>
+              </li>
+          </ul>
+        </nav>
+    <redoc scroll-y-offset="body > nav"></redoc>
+    <script src="./redoc.min.js"> </script>
+    <script>
+      // list of APIS
+      window.lang = 'en';
+      window.currentUrl = '';
+      window.currentTabIndex = 0;
+
+      var mainLang = {
+        title : {
+          en: 'Redoc',
+          vn: 'Tieng Viet'
+        },
+        lang : {
+          en: 'Language',
+          vn: 'Ngon ngu'
+        }
+      };
+
+      var apiLang = [
+        {
+          name: {
+            en: 'Customer API',
+            vn: 'Customer-TV API ',
+          },
+          url: {
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/customerapi.yaml',
+            vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/customerapi-vn.yaml'
+          },
+          id: 'customer'
+        },
+        {
+         name: {
+            en: 'Lines API',
+            vn: 'Lines-TV API'
+          },
+          url: {
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/linesapi.yaml',
+            vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/linesapi.yaml'
+          },
+          id: 'lines'
+        },
+        {
+         name: {
+            en: 'Bets API',
+            vn: 'Bets-TV API '
+          },
+          url: {
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/betsapi.yaml',
+            vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/betsapi.yaml'
+          },
+          id: 'bets'
+        }
+      ];
+
+      var changeMainLang =function(lang) {
+        if(window.lang !== lang) {
+          window.lang = lang;
+          changeMainUI();
+        }
+      }
+
+      function changeMainUI() {
+        document.title = mainLang.title[window.lang];
+        document.getElementById('bt-language').innerText = mainLang.lang[window.lang];
+        document.getElementById('bt-language').textContent = mainLang.lang[window.lang];
+        var apiList = document.getElementsByClassName("api-item");
+        for(var i =0 ; i < apiList.length; i++) {
+          apiList[i].innerText = apiLang[i].name[window.lang];
+          apiList[i].textContent = apiLang[i].name[window.lang];
+        }
+      }
+
+      Redoc.switchLanguage(apiLang[0].url[window.lang], window.lang);
+      window.currentUrl = apiLang[0].url[window.lang];
+      function onClick() {
+        window.currentTabIndex = this.getAttribute('api-index');
+        var url = getUrlFromIndex(window.currentTabIndex);
+		    Redoc.switchLanguage(url, window.lang);
+        window.currentUrl = url;
+      }
+
+      var $list = document.getElementById('links_container');
+      apiLang.forEach(function(api, index) {
+        var $listitem = document.createElement('li');
+        $listitem.className = 'api-item';
+        $listitem.innerText = api.name[window.lang];
+        $listitem.textContent = api.name[window.lang];
+        $listitem.id = api.id;
+        $listitem.setAttribute('api-index', index);
+        $listitem.addEventListener('click', onClick);
+        $list.appendChild($listitem);
+      });
+      var selectLang = function(event) {
+          var lang = this.getAttribute('lang');
+          if(lang !==  window.lang) {
+            changeMainLang(lang);
+            window.currentUrl = apiLang[window.currentTabIndex].url[window.lang];
+            Redoc.switchLanguage(window.currentUrl, window.lang);
+            event.stopPropagation();
+          }
+      };
+      var langItems =  document.getElementsByClassName("lang-item");
+      for (var i = 0; i < langItems.length; i++) {
+          langItems[i].addEventListener('click', selectLang);
+      };
+      function getUrlFromIndex(index) {
+        return apiLang[index].url[window.lang];
+      }
+    </script>
+  </body>
+</html>
