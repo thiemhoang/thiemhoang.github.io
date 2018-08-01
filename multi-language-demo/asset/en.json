@@ -67,5 +67,14 @@
     "Place Bets": "Place Bets",
     "Get Bets": "Get Bets",
     "Betting Status": "Betting Status",
-    "_required": "Required"
+    "_required": "Required",
+    "_nullable": "Nullable",
+    "validvalue": "Valid values: ",
+    "paramdefault": "Default: ",
+    "array": "Array of ",
+    "commaseparated": "Comma Separated",
+    "spaceseparated":"Space Separated",
+    "tabseparated":"Tab Separated",
+    "pipeseparated":"Pipe Separated",
+    "query_parameter": "Query Parameters"
 }

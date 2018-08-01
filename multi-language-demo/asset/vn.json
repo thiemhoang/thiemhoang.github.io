@@ -3,7 +3,7 @@
     "downloadText": "Tải xuống",
     "paramater": "Tham số đầu vào",
     "path": "Đường dẫn",
-    "query": "Truy vẫn",
+    "query": "Truy vấn",
     "formData": "Dữ liệu form",
     "header": "Dữ liệu header",
     "requestBody": "Tham số Body",
@@ -67,5 +67,14 @@
     "Place Bets": "Tạo Bets",
     "Get Bets": "Lấy thông tin Bets",
     "Betting Status": "Lây thông tin trạng thái của Bets",
-    "_required": "Bắt buộc"
+    "_required": "Bắt buộc",
+    "_nullable": "Có thể null",
+    "validvalue": "Danh sách giá trị: ",
+    "paramdefault": "Mặc định: ",
+    "array": "Danh sách của ",
+    "commaseparated": "Phân cách bằng dấu phẩy",
+    "spaceseparated": "Phân cách bằng dấu cách",
+    "tabseparated": "Phân cách bằng tab",
+    "pipeseparated": "Phân cách bằng dấu |",
+    "query_parameter": "Tham số đầu vào"
 }
