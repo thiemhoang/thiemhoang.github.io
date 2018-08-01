@@ -55,7 +55,7 @@
         width: 124px;
         display: inline-block;
         color: black;
-        padding: 12px 20px;
+        padding: 12px 18px;
         text-decoration: none;
         display: block
       }
@@ -69,8 +69,8 @@
             <li class="dropdown">
               <a id="bt-language">Language</a>
               <div id ="language-content" class="dropdown-content">
-                <a class="lang-item" lang="en">English</a>
-                <a class="lang-item" lang="vn">Tiếng Việt</a>
+                <a class="lang-item" onmouseleave="removeStyle(event)" lang="en">English</a>
+                <a class="lang-item" onmouseleave="removeStyle(event)" lang="vn">Tiếng Việt</a>
               </div>
               </li>
           </ul>
@@ -85,12 +85,12 @@
 
       var mainLang = {
         title : {
-          en: 'Redoc',
-          vn: 'Tieng Viet'
+          en: 'API Infor',
+          vn: 'Tài liệu - API'
         },
         lang : {
           en: 'Language',
-          vn: 'Ngon ngu'
+          vn: 'Ngôn Ngữ'
         }
       };
 
@@ -98,10 +98,10 @@
         {
           name: {
             en: 'Customer API',
-            vn: 'Customer-TV API ',
+            vn: 'API - Thông tin KH',
           },
           url: {
-            en: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/customerapi.yaml',
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/customerapi.yaml',
             vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/customerapi-vn.yaml'
           },
           id: 'customer'
@@ -109,10 +109,10 @@
         {
          name: {
             en: 'Lines API',
-            vn: 'Lines-TV API'
+            vn: 'API - Tài liệu Lines'
           },
           url: {
-            en: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/linesapi.yaml',
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/linesapi.yaml',
             vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/linesapi.yaml'
           },
           id: 'lines'
@@ -120,10 +120,10 @@
         {
          name: {
             en: 'Bets API',
-            vn: 'Bets-TV API '
+            vn: 'API - Tài liệu Bets '
           },
           url: {
-            en: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/betsapi.yaml',
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/betsapi.yaml',
             vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/betsapi.yaml'
           },
           id: 'bets'
@@ -176,6 +176,7 @@
             Redoc.switchLanguage(window.currentUrl, window.lang);
             event.stopPropagation();
           }
+		  document.getElementById("language-content").style.display = "none";
       };
       var langItems =  document.getElementsByClassName("lang-item");
       for (var i = 0; i < langItems.length; i++) {
@@ -183,7 +184,10 @@
       };
       function getUrlFromIndex(index) {
         return apiLang[index].url[window.lang];
-      }
+      };
+	  function removeStyle($event) {
+		document.getElementById("language-content").removeAttribute("style");
+	  }
     </script>
   </body>
 </html>
