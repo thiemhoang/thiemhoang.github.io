@@ -32,48 +32,162 @@
           color: white;
           cursor: pointer;
       }
-	  .powered-by-badge {
-	     display:none;
-	  }
+	    .powered-by-badge {
+	      display:none;
+	    }
+      redoc {
+        margin-top: -2px;
+      }
+      .dropdown-content {
+        width: 124px;
+        z-index: 99999;
+        position: absolute;
+        background: black;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        margin-top: 10px;
+        left: -2px;
+        display: none;
+      }
+      .dropdown-content a {
+        width: 124px;
+        display: inline-block;
+        color: black;
+        padding: 12px 18px;
+        text-decoration: none;
+        display: block
+      }
+      .dropdown:hover > .dropdown-content {display: block;}
+      .dropdown-content a:hover {background-color: #ddd;}
     </style>
   </head>
   <body>
       <nav>
           <ul id="links_container">
+            <li class="dropdown">
+              <a id="bt-language">Language</a>
+              <div id ="language-content" class="dropdown-content">
+                <a class="lang-item" onmouseleave="removeStyle(event)" lang="en">English</a>
+                <a class="lang-item" onmouseleave="removeStyle(event)" lang="vn">Tiếng Việt</a>
+              </div>
+              </li>
           </ul>
         </nav>
-    <redoc></redoc>
+    <redoc scroll-y-offset="body > nav"></redoc>
     <script src="./redoc.min.js"> </script>
     <script>
       // list of APIS
-      var apis = [
+      window.lang = 'en';
+      window.currentUrl = '';
+      window.currentTabIndex = 0;
+
+      var mainLang = {
+        title : {
+          en: 'API Infor',
+          vn: 'Tài liệu - API'
+        },
+        lang : {
+          en: 'Language',
+          vn: 'Ngôn Ngữ'
+        }
+      };
+
+      var apiLang = [
         {
-          name: 'Customer API',
-          url: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/customerapi.yaml'
+          name: {
+            en: 'Customer API',
+            vn: 'API - Thông tin KH',
+          },
+          url: {
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/customerapi.yaml',
+            vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/customerapi-vn.yaml'
+          },
+          id: 'customer'
         },
         {
-          name: 'Lines API',
-          url: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/linesapi.yaml'
-        },  
+         name: {
+            en: 'Lines API',
+            vn: 'API - Tài liệu Lines'
+          },
+          url: {
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/linesapi.yaml',
+            vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/linesapi.yaml'
+          },
+          id: 'lines'
+        },
         {
-          name: 'Bets API',
-          url: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/betsapi.yaml'
+         name: {
+            en: 'Bets API',
+            vn: 'API - Tài liệu Bets '
+          },
+          url: {
+            en: 'https://raw.githubusercontent.com/thiemhoang/redoc/master/betsapi.yaml',
+            vn: 'https://raw.githubusercontent.com/thiemhoang/redoc3/master/betsapi.yaml'
+          },
+          id: 'bets'
         }
       ];
-      Redoc.init(apis[0].url);
-      function onClick() {
-        var url = this.getAttribute('data-link');
-        Redoc.init(url);
+
+      var changeMainLang =function(lang) {
+        if(window.lang !== lang) {
+          window.lang = lang;
+          changeMainUI();
+        }
       }
+
+      function changeMainUI() {
+        document.title = mainLang.title[window.lang];
+        document.getElementById('bt-language').innerText = mainLang.lang[window.lang];
+        document.getElementById('bt-language').textContent = mainLang.lang[window.lang];
+        var apiList = document.getElementsByClassName("api-item");
+        for(var i =0 ; i < apiList.length; i++) {
+          apiList[i].innerText = apiLang[i].name[window.lang];
+          apiList[i].textContent = apiLang[i].name[window.lang];
+        }
+      }
+
+      Redoc.switchLanguage(apiLang[0].url[window.lang], window.lang);
+      window.currentUrl = apiLang[0].url[window.lang];
+      function onClick() {
+        window.currentTabIndex = this.getAttribute('api-index');
+        var url = getUrlFromIndex(window.currentTabIndex);
+		    Redoc.switchLanguage(url, window.lang);
+        window.currentUrl = url;
+      }
+
       var $list = document.getElementById('links_container');
-      apis.forEach(function(api) {
+      apiLang.forEach(function(api, index) {
         var $listitem = document.createElement('li');
-        $listitem.setAttribute('data-link', api.url);
-        $listitem.innerText = api.name;
-        $listitem.textContent = api.name;
+        $listitem.className = 'api-item';
+        $listitem.innerText = api.name[window.lang];
+        $listitem.textContent = api.name[window.lang];
+        $listitem.id = api.id;
+        $listitem.setAttribute('api-index', index);
         $listitem.addEventListener('click', onClick);
         $list.appendChild($listitem);
       });
+      var selectLang = function(event) {
+          var lang = this.getAttribute('lang');
+          if(lang !==  window.lang) {
+            changeMainLang(lang);
+            window.currentUrl = apiLang[window.currentTabIndex].url[window.lang];
+            Redoc.switchLanguage(window.currentUrl, window.lang);
+            event.stopPropagation();
+          }
+		  document.getElementById("language-content").style.display = "none";
+      };
+      var langItems =  document.getElementsByClassName("lang-item");
+      for (var i = 0; i < langItems.length; i++) {
+          langItems[i].addEventListener('click', selectLang);
+      };
+      function getUrlFromIndex(index) {
+        return apiLang[index].url[window.lang];
+      };
+	  function removeStyle($event) {
+		document.getElementById("language-content").removeAttribute("style");
+	  }
     </script>
   </body>
 </html>
