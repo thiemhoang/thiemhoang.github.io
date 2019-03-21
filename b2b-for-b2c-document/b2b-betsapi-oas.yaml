@@ -604,35 +604,35 @@ components:
         isLive:
           type: boolean
           example: false
-          description: Whether the bet is on live event
+          description: 'Whether the bet is on live event'
         price:
           type: number
           format: double
-          description: Latest price.
+          description: 'Latest price.'
         lineId:
           type: integer
           format: int64
-          description: Line identification needed to place a bet.
+          description: 'Line identification needed to place a bet.'
           example: 1234
         maxRiskStake:
           type: number
           format: double
-          description: Maximum bettable risk amount.
+          description: 'Maximum bettable risk amount.'
           example: 10.5
         minRiskStake:
           type: number
           format: double
-          description: Minimum bettable risk amount.
+          description: 'Minimum bettable risk amount.'
           example: 10.5
         maxWinStake:
           type: number
           format: double
-          description: Maximum bettable win amount.
+          description: 'Maximum bettable win amount.'
           example: 10.5
         minWinStake:
           type: number
           format: double
-          description: Minimum bettable win amount.
+          description: 'Minimum bettable win amount.'
           example: 10.5
       description: ''    
 
