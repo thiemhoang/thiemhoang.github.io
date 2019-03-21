@@ -605,10 +605,6 @@ components:
           type: boolean
           example: false
           description: 'Whether the bet is on live event'
-        price:
-          type: number
-          format: double
-          description: 'Latest price.'
         lineId:
           type: integer
           format: int64
@@ -937,6 +933,7 @@ components:
         isLive:
           type: boolean
           example: false
+          description: Whether the bet is on live event
       description: ''      
     
     # Parlay
