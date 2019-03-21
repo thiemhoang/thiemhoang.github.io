@@ -401,7 +401,7 @@ components:
           type: integer
           format: int64
           description: Id of a newly created bet.
-                price:
+        price:
           type: number
           format: double
           description: 'Latest price.'
