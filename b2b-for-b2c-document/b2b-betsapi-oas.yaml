@@ -331,10 +331,6 @@ components:
           enum:
             - OVER
             - UNDER
-        externalRef:
-          description: Bet reference identifier in the partner's system.
-          example: 12345
-          type: string
         sourceId:
           description: Bettor identifier in the partner's system.
           example: ABC1234
@@ -663,10 +659,6 @@ components:
           format: int64
           example: 726394411
           description: Contestant identification.
-        externalRef:
-          description: Bet reference identifier in the partner's system.
-          example: 12345
-          type: string
         sourceId:
           description: Bettor identifier in the partner's system.
           example: ABC1234
@@ -929,6 +921,16 @@ components:
           description: 'Amount in client’s currency. It is always risk amount when placing Parlay bets NOTE: If round robin options is used this amount will apply for all parlays so actual amount wagered will be riskAmount X number of Parlays.'
         oddsFormat:
           $ref: '#/components/schemas/OddsFormat'
+        sourceId:
+          description: Bettor identifier in the partner's system.
+          example: ABC1234
+          type: string
+        sourceIP:
+          description: Bettor's IP address
+          type: string
+          example: 123.123.123.123
+        ext:
+          $ref: '#/components/schemas/PlaceBetExtension'
         legs:
           type: array
           description: Collection of parlay legs.
@@ -1429,10 +1431,6 @@ components:
           type: number
           format: double
           description: amount in client’s currency.
-        externalRef:
-          description: Bet reference identifier in the partner's system.
-          example: 12345
-          type: string
         sourceId:
           description: Bettor identifier in the partner's system.
           example: ABC1234
